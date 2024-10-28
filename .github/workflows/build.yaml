@@ -102,6 +102,7 @@ jobs:
       
     - name: Install galasactl with Homebrew
       run: |
+        brew update
         brew install --no-quarantine galasactl
 
     #----------------------------------------------------------------------------------
