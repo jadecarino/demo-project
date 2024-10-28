@@ -116,7 +116,7 @@ jobs:
 
     - name: Run the Galasa tests
       run: |
-        docker run --rm ghcr.io/galasa-dev/galasactl-x86_64 runs submit local \
+        docker run --rm ghcr.io/galasa-dev/galasactl-x86_64:main runs submit local \
         --obr mvn:dev.galasa.example/dev.galasa.example.obr/0.0.1/obr \
         --class dev.galasa.example.simbank/dev.galasa.example.simbank.TestSimbank \
         --localMaven file:///github/workspace/.m2/repository \
