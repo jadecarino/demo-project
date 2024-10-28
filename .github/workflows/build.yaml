@@ -11,7 +11,7 @@ jobs:
 
   #------------------------------------------------------------------------------------
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions:
       contents: read
     steps:
@@ -68,7 +68,7 @@ jobs:
       contents: read
     env:
       GALASA_HOME: ${{ github.workspace }}/.galasa
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: build
     steps:
 
@@ -91,7 +91,15 @@ jobs:
     # secure.credentials.MYSIMBANKUSER.password=XXX
 
     #----------------------------------------------------------------------------------
-    # Download Galasactl
+    # Install Homebrew, then install galasactl
+    # - name: Install Homebrew
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install build-essential procps curl file git -y
+    #     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    #     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
+    #     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+      
     - name: Install galasactl with Homebrew
       run: |
         brew install --no-quarantine galasactl
