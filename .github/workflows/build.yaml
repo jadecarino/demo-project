@@ -92,29 +92,31 @@ jobs:
 
     #----------------------------------------------------------------------------------
     # Install Homebrew, then install galasactl
-    - name: Install Homebrew
-      run: |
-        sudo apt-get update
-        sudo apt-get install build-essential procps curl file git -y
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    # - name: Install Homebrew
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install build-essential procps curl file git -y
+    #     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    #     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
+    #     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
       
-    - name: Install galasactl with Homebrew
-      run: |
-        brew update
-        brew install --no-quarantine galasactl
+    # - name: Install galasactl with Homebrew
+    #   run: |
+    #     brew update
+    #     brew install --no-quarantine galasactl
 
     #----------------------------------------------------------------------------------
     # Run the Galasa tests using "galasactl runs submit local" and upload test artifacts
-    - name: Run the dev.galasa.example tests
+    - name: Run the SimBank application
       run: |
         echo "Starting SimBank application..."
         java -jar /github/workspace/.m2/repository/dev/galasa/galasa-simplatform/0.24.0/galasa-simplatform-0.24.0.jar &
 
         echo "Running SimBank tests..."
 
-        galasactl runs submit local \
+    - name: Run the Galasa tests
+      run: |
+        docker run --rm ghcr.io/galasa-dev/galasactl-x86_64 runs submit local \
         --obr mvn:dev.galasa.example/dev.galasa.example.obr/0.0.1/obr \
         --class dev.galasa.example.simbank/dev.galasa.example.simbank.TestSimbank \
         --localMaven file:///github/workspace/.m2/repository \
