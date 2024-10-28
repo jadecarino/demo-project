@@ -11,7 +11,7 @@ jobs:
 
   #------------------------------------------------------------------------------------
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -68,7 +68,7 @@ jobs:
       contents: read
     env:
       GALASA_HOME: ${{ github.workspace }}/.galasa
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     needs: build
     steps:
 
@@ -92,13 +92,13 @@ jobs:
 
     #----------------------------------------------------------------------------------
     # Install Homebrew, then install galasactl
-    # - name: Install Homebrew
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get install build-essential procps curl file git -y
-    #     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    #     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
-    #     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    - name: Install Homebrew
+      run: |
+        sudo apt-get update
+        sudo apt-get install build-essential procps curl file git -y
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
       
     - name: Install galasactl with Homebrew
       run: |
