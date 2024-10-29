@@ -11,7 +11,7 @@ jobs:
 
   #------------------------------------------------------------------------------------
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions:
       contents: read
     steps:
@@ -68,7 +68,7 @@ jobs:
       contents: read
     env:
       GALASA_HOME: ${{ github.workspace }}/.galasa
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: build
     steps:
 
