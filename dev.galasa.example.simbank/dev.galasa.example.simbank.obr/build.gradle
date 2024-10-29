@@ -8,12 +8,12 @@ plugins {
 
 // Set the variables which will control what the built OSGi bundle will be called
 // and the name it will be published under in the maven repository.
-group = 'dev.galasa.example'
+group = 'dev.galasa.example.simbank'
 version = '0.0.1-SNAPSHOT'
 
 // What are the dependencies of the obr ? 
 dependencies {
-    bundle project(':dev.galasa.example.simbank')
+    bundle project(':dev.galasa.example.simbank.login')
 }
 
 def testcatalog = file('build/testcatalog.json')

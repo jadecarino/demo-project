@@ -1,3 +1,3 @@
 Bundle-Version: 0.0.1-SNAPSHOT
-Bundle-Name: dev.galasa.example.simbank
+Bundle-Name: dev.galasa.example.simbank.login
 Import-Package: *

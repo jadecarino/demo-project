@@ -1,4 +1,4 @@
-package dev.galasa.example.simbank;
+package dev.galasa.example.simbank.login;
 
 import static org.assertj.core.api.Assertions.*;
 import org.apache.commons.logging.Log;
@@ -13,7 +13,7 @@ import java.nio.file.*;
  * A sample galasa test class, which does slightly more than the simple test class
  */
 @Test
-public class TestSimbankExtended {
+public class TestLoginExtended {
 
 	//obtain a reference to the logger
 	@Logger
@@ -61,7 +61,7 @@ public class TestSimbankExtended {
 		String testMessageEmbedIntoArtifact = "Hello Galasa !";
 
 		// Now store the artifact in the test repository.
-		Path artifactFilePath = archivedArtifactRoot.resolve(runName+"-TestSimbankExtended-Artifact.txt");
+		Path artifactFilePath = archivedArtifactRoot.resolve(runName+"-TestLoginExtended-Artifact.txt");
 
 	    Files.write(artifactFilePath, testMessageEmbedIntoArtifact.getBytes());
 	}

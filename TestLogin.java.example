@@ -1,4 +1,4 @@
-package dev.galasa.example.simbank;
+package dev.galasa.example.simbank.login;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,7 +12,7 @@ import dev.galasa.zos3270.ITerminal;
 import dev.galasa.zos3270.Zos3270Terminal;
 
 @Test
-public class TestSimbank {
+public class TestLogin {
 
     @ZosImage(imageTag = "SIMBANK")
     public IZosImage image;
@@ -24,7 +24,6 @@ public class TestSimbank {
     public ICoreManager coreManager;
 
     private static final String CREDENTIALS_ID = "MYSIMBANKUSER";
-
 
     @Test
     public void checkBankIsAvailable() throws Exception {
