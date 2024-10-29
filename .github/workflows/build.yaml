@@ -9,8 +9,7 @@ on:
 
 jobs:
 
-  #------------------------------------------------------------------------------------
-  build:
+  build-tests:
     runs-on: macos-latest
     permissions:
       contents: read
@@ -28,55 +27,53 @@ jobs:
       uses: gradle/actions/setup-gradle@v3
       with:
         gradle-version: '8.9'
-
-    #----------------------------------------------------------------------------------
-    - name: Checkout this repository
-      uses: actions/checkout@v4
   
     #----------------------------------------------------------------------------------
-    # Build and run the Simplatform application that the tests connect to
+    # Build the Simplatform application that the tests connect to
     - name: Checkout the Simplatform repository
       uses: actions/checkout@v4
       with:
         repository: jadecarino/simplatform
         path: ${{ github.workspace }}/simplatform
 
-    - name: Build application
+    - name: Build Simplatform application
       working-directory: ${{ github.workspace }}/simplatform
       run: |
         ./build-locally.sh
 
     #----------------------------------------------------------------------------------
     # Build this Galasa test project
-    - name: Build and publish to Maven local
+    - name: Checkout this repository
+      uses: actions/checkout@v4
+
+    - name: Build Galasa test project and publish to Maven local
       working-directory: ./dev.galasa.example
       run: |
         gradle clean build publishToMavenLocal
 
     #----------------------------------------------------------------------------------
     # Upload the local Maven repository so the next job can download it
-    - name: Upload local maven repository
+    - name: Upload Maven local
       uses: actions/upload-artifact@v4
       with:
         name: maven-local
         path: ~/.m2/repository
 
 
-  #------------------------------------------------------------------------------------
   run-tests-with-galasactl:
     permissions:
       contents: read
     env:
       GALASA_HOME: ${{ github.workspace }}/.galasa
     runs-on: macos-latest
-    needs: build
+    needs: ["build-tests"]
     steps:
 
     #----------------------------------------------------------------------------------
     - name: Checkout this repository
       uses: actions/checkout@v4
 
-    - name: Download local Maven repository
+    - name: Download Maven local
       uses: actions/download-artifact@v4
       with:
         name: maven-local
@@ -86,20 +83,13 @@ jobs:
       working-directory: ${{ env.GALASA_HOME }}
       run: |
         echo "${{ secrets.SIMBANK_CREDENTIALS }}" >> credentials.properties
-    # The credentials.properties file should look something like this...
+
+    # The credentials.properties file should look something like this:
     # secure.credentials.MYSIMBANKUSER.username=XXX
     # secure.credentials.MYSIMBANKUSER.password=XXX
+    # Needs to be created dynamically as they cannot be checked into GitHub and exposed.
 
     #----------------------------------------------------------------------------------
-    # Install Homebrew, then install galasactl
-    # - name: Install Homebrew
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get install build-essential procps curl file git -y
-    #     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    #     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
-    #     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-      
     - name: Install galasactl with Homebrew
       run: |
         brew update
@@ -107,22 +97,28 @@ jobs:
         brew install --no-quarantine galasactl
 
     #----------------------------------------------------------------------------------
-    # Run the Galasa tests using "galasactl runs submit local" and upload test artifacts
-    - name: Run the SimBank application
+    - name: Initialise local Galasa environment
+      run: |
+        galasactl local init --log -
+
+    #----------------------------------------------------------------------------------
+    # Start the Simplatform application
+    # The run the Galasa tests using "galasactl runs submit local"
+    - name: Run the dev.galasa.example tests
       run: |
         echo "Starting SimBank application..."
-        java -jar /github/workspace/.m2/repository/dev/galasa/galasa-simplatform/0.24.0/galasa-simplatform-0.24.0.jar &
+        java -jar ${{ github.workspace }}/.m2/repository/dev/galasa/galasa-simplatform/0.24.0/galasa-simplatform-0.24.0.jar &
 
         echo "Running SimBank tests..."
 
         galasactl runs submit local \
         --obr mvn:dev.galasa.example/dev.galasa.example.obr/0.0.1/obr \
         --class dev.galasa.example.simbank/dev.galasa.example.simbank.TestSimbank \
-        --localMaven file:///github/workspace/.m2/repository \
+        --localMaven file:///${{ github.workspace }}/.m2/repository \
         --log - || :
 
-    # - name: Upload Galasa test results
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: galasa-ras
-    #     path: ${{ env.GALASA_HOME }}/ras
+    - name: Upload Galasa test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: galasa-ras
+        path: ${{ env.GALASA_HOME }}/ras
