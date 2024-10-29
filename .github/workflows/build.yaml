@@ -40,7 +40,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build Galasa test project and publish to Maven local
-      working-directory: ./dev.galasa.example
+      working-directory: ./dev.galasa.example.simbank
       run: |
         gradle clean build publishToMavenLocal
 
@@ -76,7 +76,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: maven-local
-        path: ${{ github.workspace }}/.m2/repository
+        path: ~/.m2/repository
 
     - name: Create credentials.properties file
       working-directory: ${{ env.GALASA_HOME }}
@@ -102,17 +102,17 @@ jobs:
     #----------------------------------------------------------------------------------
     # Start the Simplatform application
     # The run the Galasa tests using "galasactl runs submit local"
-    - name: Run the dev.galasa.example tests
+    - name: Run the dev.galasa.example.simbank tests
       run: |
         echo "Starting SimBank application..."
-        java -jar ${{ github.workspace }}/.m2/repository/dev/galasa/galasa-simplatform/0.24.0/galasa-simplatform-0.24.0.jar &
+        java -jar ~/.m2/repository/dev/galasa/galasa-simplatform/0.24.0/galasa-simplatform-0.24.0.jar &
 
         echo "Running SimBank tests..."
 
         galasactl runs submit local \
-        --obr mvn:dev.galasa.example/dev.galasa.example.obr/0.0.1/obr \
-        --class dev.galasa.example.simbank/dev.galasa.example.simbank.TestSimbank \
-        --localMaven file://${{ github.workspace }}/.m2/repository \
+        --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1/obr \
+        --class dev.galasa.example.simbank.login/dev.galasa.example.simbank.login.TestSimbank \
+        --localMaven file:///Users/runner/.m2/repository \
         --log - || :
 
     - name: Upload Galasa test results
