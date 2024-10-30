@@ -76,11 +76,16 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: maven-local
-        path: /github/workspace/.m2/repository
+        path: ~/.m2/repository
 
     - name: Display Maven local contents
       run: |
-        ls -R /github/workspace/.m2/repository
+        ls -R ~/.m2/repository
+
+    - name: Get fully qualified path
+      working-directory: ~/.m2/repository
+      run: |
+        pwd
 
     - name: Create credentials.properties file
       working-directory: ${{ env.GALASA_HOME }}
