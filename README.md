@@ -2,6 +2,8 @@
 
 ## Local
 
+0. Start the Simplatform application
+
 1. Install galasactl with Homebrew
 ```
 brew tap galasa-dev/tap
