@@ -82,7 +82,7 @@ jobs:
 
         galasactl runs submit local \
         --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1-SNAPSHOT/obr \
-        --class dev.galasa.example.simbank.login/dev.galasa.example.simbank.login.TestSimbank \
+        --class dev.galasa.example.simbank.login/dev.galasa.example.simbank.login.TestLogin \
         --localMaven file:///Users/runner/.m2/repository \
         --log - || :
     
@@ -170,7 +170,7 @@ jobs:
 
     #     galasactl runs submit local \
     #     --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1-SNAPSHOT/obr \
-    #     --class dev.galasa.example.simbank.login/dev.galasa.example.simbank.login.TestSimbank \
+    #     --class dev.galasa.example.simbank.login/dev.galasa.example.simbank.login.TestLogin \
     #     --localMaven file:///github/workspace/.m2/repository \
     #     --log - || :
 
