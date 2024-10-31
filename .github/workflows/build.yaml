@@ -71,10 +71,10 @@ jobs:
       run: |
         galasactl local init --log -
 
-          - name: Run the Simplatform application
-          run: |
-            echo "Starting SimBank application..."
-            java -jar /Users/runner/.m2/repository/dev/galasa/galasa-simplatform/0.24.0/galasa-simplatform-0.24.0.jar &
+    - name: Run the Simplatform application
+      run: |
+        echo "Starting SimBank application..."
+        java -jar /Users/runner/.m2/repository/dev/galasa/galasa-simplatform/0.24.0/galasa-simplatform-0.24.0.jar &
     
     - name: Run the dev.galasa.example.simbank tests
       run: |
