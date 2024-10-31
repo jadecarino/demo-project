@@ -81,7 +81,7 @@ jobs:
         echo "Running SimBank tests..."
 
         galasactl runs submit local \
-        --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1/obr \
+        --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1-SNAPSHOT/obr \
         --class dev.galasa.example.simbank.login/dev.galasa.example.simbank.login.TestSimbank \
         --localMaven file:///Users/runner/.m2/repository \
         --log - || :
@@ -169,7 +169,7 @@ jobs:
     #     echo "Running SimBank tests..."
 
     #     galasactl runs submit local \
-    #     --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1/obr \
+    #     --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1-SNAPSHOT/obr \
     #     --class dev.galasa.example.simbank.login/dev.galasa.example.simbank.login.TestSimbank \
     #     --localMaven file:///github/workspace/.m2/repository \
     #     --log - || :
