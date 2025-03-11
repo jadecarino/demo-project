@@ -41,7 +41,9 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: jadecarino/simplatform
+        ref: demo-branch
         path: ${{ github.workspace }}/simplatform
+        
 
     - name: Build Simplatform application
       working-directory: ${{ github.workspace }}/simplatform
