@@ -17,4 +17,5 @@ pluginManagement {
 
 // Tell gradle to build the sub-projects in child folders
 include 'dev.galasa.example.simbank.login'
+include 'dev.galasa.example.simbank.openaccount'
 include 'dev.galasa.example.simbank.obr'
