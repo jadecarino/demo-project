@@ -80,7 +80,7 @@ jobs:
       run: |
         echo "Starting SimBank application..."
 
-        java -jar /Users/runner/.m2/repository/dev/galasa/galasa-simplatform/0.24.0/galasa-simplatform-0.24.0.jar &
+        java -jar /Users/runner/.m2/repository/dev/galasa/galasa-simplatform/0.40.0/galasa-simplatform-0.40.0.jar &
     
     #----------------------------------------------------------------------------------
     # Run the Galasa tests
