@@ -63,6 +63,10 @@ secure.credentials.MYSIMBANKUSER.password=SYS1
 galasactl runs submit local --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1-SNAPSHOT/obr --class dev.galasa.example.simbank.login/dev.galasa.example.simbank.login.TestLogin --log -
 ```
 
+```
+galasactl runs submit local --obr mvn:dev.galasa.example.simbank/dev.galasa.example.simbank.obr/0.0.1-SNAPSHOT/obr --class dev.galasa.example.simbank.openaccount/dev.galasa.example.simbank.openaccount.TestOpenAccount --log -
+```
+
 11. Display the 3270 images from the RAS
 
 ### Automation

@@ -31,10 +31,8 @@ dependencies {
     implementation 'dev.galasa:dev.galasa'
     implementation 'dev.galasa:dev.galasa.framework'
     implementation 'dev.galasa:dev.galasa.core.manager'
-    implementation 'dev.galasa:dev.galasa.artifact.manager'
     implementation 'dev.galasa:dev.galasa.zos.manager'
     implementation 'dev.galasa:dev.galasa.zos3270.manager'
-    implementation 'dev.galasa:dev.galasa.http.manager'
 
     implementation 'commons-logging:commons-logging'
     implementation 'org.assertj:assertj-core'

@@ -22,6 +22,8 @@ import dev.galasa.zosbatch.ZosBatchJobname;
 @Test
 public class TestOpenAccount {
 
+	// 1. Inject Managers into the test with annotations.
+
 	@ZosImage(imageTag = "SIMBANK")
 	public IZosImage image;
 	
@@ -56,7 +58,8 @@ public class TestOpenAccount {
 	 */
 	@Test
 	public void testBatchOpenAccount() throws Exception {
-		// Create a list of accounts to create
+
+		// 2. Create a list of accounts to create
 		List<String> accountList = new LinkedList<>();
 		accountList.add("901000001,20-40-60,1000");
 		accountList.add("901000002,20-40-60,1000");
@@ -68,18 +71,18 @@ public class TestOpenAccount {
 		accountList.add("901000008,20-40-60,1000");
 		accountList.add("901000009,20-40-60,1000");
 
-		// Create the substitution parameters for the JCL
+		// 3. Create the substitution parameters for the JCL
 		HashMap<String, Object> parameters = new HashMap<>();
 		parameters.put("CONTROL", "ACCOUNT_OPEN");
 		parameters.put("DATAIN", String.join("\n", accountList));
 		
-		// Load the JCL with the given substitution parameters
+		// 4. Load the JCL with the given substitution parameters
 		String jcl = resources.retrieveSkeletonFileAsString("/skeletons/SIMBANK.jcl", parameters);
 		
-		// Submit the JCL
+		// 5. Submit the JCL
 		IZosBatchJob batchJob = zosBatch.submitJob(jcl, zosBatchJobname);
 		
-		// Wait for the batch job to complete
+		// 6. Wait for the batch job to complete
 		logger.info("batchJob.toString() = " +  batchJob.toString());
 		int rc = batchJob.waitForJob();
 		

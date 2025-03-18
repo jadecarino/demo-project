@@ -37,7 +37,6 @@ dependencies {
 
     implementation 'dev.galasa:dev.galasa.zos.manager'
     implementation 'dev.galasa:dev.galasa.zos3270.manager'
-    implementation 'dev.galasa:dev.galasa.http.manager'
 }
 
 // Tell gradle to publish the built OSGi bundles as maven artifacts on the 
