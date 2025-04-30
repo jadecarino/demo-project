@@ -49,13 +49,13 @@ zos.image.SIMBANK.ipv4.hostname=127.0.0.1
 zos.image.SIMBANK.telnet.tls=false
 zos.image.SIMBANK.telnet.port=2023
 zos.image.SIMBANK.webnet.port=2080
-zos.image.SIMBANK.credentials=MYSIMBANKUSER
+zos.image.SIMBANK.credentials=SIMBANK
 ```
 
 9. Add credentials properties
 ```
-secure.credentials.MYSIMBANKUSER.username=IBMUSER
-secure.credentials.MYSIMBANKUSER.password=SYS1
+secure.credentials.SIMBANK.username=IBMUSER
+secure.credentials.SIMBANK.password=SYS1
 ```
 
 10. Run the test locally
