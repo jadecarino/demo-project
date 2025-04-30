@@ -1,6 +1,6 @@
 package dev.galasa.example.simbank.login;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import dev.galasa.ICredentialsUsernamePassword;
 import dev.galasa.Test;
@@ -14,47 +14,47 @@ import dev.galasa.zos3270.Zos3270Terminal;
 @Test
 public class TestLogin {
 
-    @ZosImage(imageTag = "SIMBANK")
-    public IZosImage image;
+	// 1. Inject Managers into the test with annotations.
 
-    @Zos3270Terminal(imageTag = "SIMBANK")
-    public ITerminal terminal;
+	@ZosImage(imageTag = "SIMBANK")
+	public IZosImage image;
 
-    @CoreManager
-    public ICoreManager coreManager;
+	@Zos3270Terminal(imageTag = "SIMBANK")
+	public ITerminal terminal;
 
-    private static final String CREDENTIALS_ID = "MYSIMBANKUSER";
+	@CoreManager
+	public ICoreManager coreManager;
 
-    @Test
-    public void checkBankIsAvailable() throws Exception {
-        // Get the credentials that will be used to log in to SimBank
-        ICredentialsUsernamePassword credentials = (ICredentialsUsernamePassword) coreManager.getCredentials(CREDENTIALS_ID);
+	private static final String CREDENTIALS_ID = "SIMBANK";
 
-        // Register the password to the confidential text filtering service
-        String password = credentials.getPassword();
-        coreManager.registerConfidentialText(password, "The password to access SimBank");
+	@Test
+	public void checkBankIsAvailable() throws Exception {
+		// 2. Get the credentials that will be used to log in to SimBank using the Core Manager
+		ICredentialsUsernamePassword credentials = (ICredentialsUsernamePassword) coreManager.getCredentials(CREDENTIALS_ID);
 
-        // Logon through the session manager
-        terminal.waitForKeyboard()
-            .positionCursorToFieldContaining("Userid").tab()
-            .type(credentials.getUsername())
-            .positionCursorToFieldContaining("Password").tab()
-            .type(password)
-            .enter()
-            .waitForKeyboard();
+		// 3. Register password as confidential text so it's not shown in any run logs.
+		String password = credentials.getPassword();
+		coreManager.registerConfidentialText(password, "The password to access SimBank");
 
-        // Assert that the session manager has a bank session available
-        assertThat(terminal.retrieveScreen()).containsOnlyOnce("SIMPLATFORM MAIN MENU");
-        assertThat(terminal.retrieveScreen()).containsOnlyOnce("BANKTEST");
+		// 4. Enter user ID and password with 3270 terminal.
+		terminal.waitForKeyboard()
+			.positionCursorToFieldContaining("Userid").tab().type(credentials.getUsername())
+			.positionCursorToFieldContaining("Password").tab().type(credentials.getPassword())
+			.enter().waitForKeyboard();
 
-        // Open banking application
-        terminal.pf1().waitForKeyboard().clear().waitForKeyboard();
+		// 5. Check that the screen after login is displayed on the screen.
+		assertThat(terminal.retrieveScreen()).containsOnlyOnce("SIMPLATFORM MAIN MENU");
+		assertThat(terminal.retrieveScreen()).containsOnlyOnce("BANKTEST");
 
-        terminal.type("bank").enter().waitForKeyboard();
+		terminal.pf1().waitForKeyboard().clear().waitForKeyboard();
+		
+		// 6. Open the banking application.
+		terminal.type("bank").enter().waitForKeyboard();
 
-        // Assert that the bank menu is showing
-        assertThat(terminal.retrieveScreen()).containsOnlyOnce("Options     Description        PFKey ");
-        assertThat(terminal.retrieveScreen()).containsOnlyOnce("BROWSE      Browse Accounts    PF1");
-        assertThat(terminal.retrieveScreen()).containsOnlyOnce("TRANSF      Transfer Money     PF4");
-    }
+		// 7. Check that the banking application menu is displayed on the screen.
+		assertThat(terminal.retrieveScreen()).containsOnlyOnce("Options     Description        PFKey ");
+		assertThat(terminal.retrieveScreen()).containsOnlyOnce("BROWSE      Browse Accounts    PF1");
+		assertThat(terminal.retrieveScreen()).containsOnlyOnce("TRANSF      Transfer Money     PF4");
+		
+	}
 }

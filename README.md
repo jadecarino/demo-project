@@ -7,7 +7,7 @@
 1. Install galasactl with Homebrew
 ```
 brew tap galasa-dev/tap
-brew install galasactl@0.36.0 --no-quarantine
+brew install galasactl@0.40.0 --no-quarantine
 galasactl --version
 ```
 
